@@ -31,7 +31,11 @@ namespace TestScenario
 
         public void NotifyTestCleanup()
         {
-            _tests.Remove(TestContext.TestName);
+            if (TestContext.DataRow == null ||
+                ReferenceEquals(TestContext.DataRow, TestContext.DataRow.Table.Rows[TestContext.DataRow.Table.Rows.Count - 1]))
+            {
+                _tests.Remove(TestContext.TestName);
+            }
             App.Release(TestContext.CurrentTestOutcome == UnitTestOutcome.Passed && 0 < _tests.Count);
         }
 
